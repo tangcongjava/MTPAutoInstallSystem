@@ -1,0 +1,45 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title> loading </title>
+<style type="text/css">
+.query_hint{
+ border:5px solid #939393;
+ width:250px;
+ height:50px;
+ line-height:55px;
+ padding:0 20px;
+ position:absolute;
+ left:50%;
+ margin-left:-140px;
+ top:50%;
+ margin-top:-40px;
+ font-size:15px;
+ color:#333;
+ font-weight:bold;
+ text-align:center;
+ background-color:#f9f9f9;
+}
+.query_hint img{position:relative;top:10px;left:-8px;}
+</style>
+    <script type="text/javascript" src="jquery.min.js"></script>
+ </head>
+ <body>
+  <div id="query_hint" class="query_hint">
+   <img src="./loading.gif">正在加载请稍等
+  </div>
+ </body>
+<script>
+    //显示loading页面
+    function show_query_hint(query_hint){
+        var query_hint = document.getelementbyid(query_hint);
+        query_hint.style.display="block";
+    }
+//关掉
+    function queryHintCallback(query_hint){
+        var query_hint = document.getElementById(query_hint);
+        query_hint.style.display="none";
+    }
+</script>
+</html>

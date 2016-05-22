@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript闭包</title>
+</head>
+<body>
+    <script>
+        function lazy_sum(arr){
+            var sum =function(){
+                return arr.reduce(function(x,y){
+                    return x +y;
+                });
+
+            }
+             return sum;
+        }
+        var f = lazy_sum([1,4,5,4,5,1,5,2,5,1]);
+        console.log(f());
+    </script>
+</body>
+</html>

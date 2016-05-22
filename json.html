@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>json是用来进行数据交互的文本格式</title>
+</head>
+<body>
+    <script>
+        var xiaoming ={
+            name:'xiaoming',
+            gender:true,
+            height:1.65,
+            grade:null,
+            'middle-scholl':'w3school',
+            skills:['javascipt','json','python']
+        }
+        //序列化
+        console.log(JSON.stringify(xiaoming));
+    </script>
+</body>
+<p>
+    把javascript对象变成json，就是把这个对象序列化成一个jsons格式的字符串,这样才能通过网络传递给计算机。
+    如果接收到一个json对象，只要反序列化就可以得到一个javascript对象。
+</p>
+</html>

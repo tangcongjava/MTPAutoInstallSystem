@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript闭包02</title>
+</head>
+<body>
+    <script>
+        function count(){
+            var arr = [];
+            for(var i=1;i<3;i++){
+                arr.push(function() {
+                    return i*i;
+                });
+
+            }
+            return arr;
+        }
+        var result = count();
+        //全部输出的是以i=2为参数的结果
+        //闭包是能包含函数的局部变量的。闭包就是携带状态的函数，并且它的状态可以完全对外隐藏起来
+        var f1 = result[0];
+        var f2 = result[1];
+        var f3 = result[2];
+        console.log(f1());
+        console.log(f2());
+        console.log(f3());
+    </script>
+</body>
+</html>

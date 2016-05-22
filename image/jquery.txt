@@ -1,0 +1,28 @@
+
+<div id="query_hint" class="query_hint">
+    <img src="http://static.oschina.net/uploads/space/2014/0430/115223_oFLD_1163935_thumb.gif" />���ڲ�ѯ�����Եȣ�����
+</div>
+
+<script src="http://www.oschina.net/js/2012/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+//ҳ��������֮��ȥ��Loading
+$(document).ready(function(){
+    parent.frames[0].queryHintCallback("query_hint");
+});
+/**
+ * @description  * ��ʾ��ѯ�ȴ��
+ * @param query_hint
+ */
+function show_query_hint(query_hint){
+    var query_hint = document.getelementbyid(query_hint);
+    query_hint.style.display="block";
+}
+/**
+ * @description ��ѯ���ص�����
+ * @param query_hint Ҫ���ص���ʾ��id
+ */
+function queryHintCallback(query_hint){
+    var query_hint = document.getElementById(query_hint);
+    query_hint.style.display="none";
+}
+</script>

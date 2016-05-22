@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var xiaoming={
+            name:'xioaming',
+            birth:1990,
+            age:function(){
+                var that = this;
+                function getAgeformbirth(){
+                    var y = new Date().getFullYear();
+                    return y -that.birth;
+                }
+                return getAgeformbirth();
+            }
+        };
+        window.console.log(xiaoming.age());
+        function show(a ,b,c){
+            var name = a;
+            var age = b ;
+            var sex =c ;
+            var arglenght = arguments.length;
+            console.log('name is '+name);
+        }
+        show('angustang',25,'male');
+    </script>
+</head>
+<body>
+     <p>hello angustan</p>
+</body>
+</html>

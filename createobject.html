@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>通过objecg.create来创建一个对象</title>
+
+</head>
+<body>
+    <script>
+        var student ={
+            name:'robot',
+            height:1.2,
+            run:function(){
+                console.log(this.name + "is running");
+            }
+
+        };
+        function createStudent(name){
+            var s =Object.create(student);
+            s.name = name;
+            return s;
+        }
+        var xiaoming = createStudent('xiaoming');
+        xiaoming.run();
+        function Student(name,age,sex){
+           this.name = name;
+            this.age  = age;
+            this.sex = sex;
+            this.hello = function (){
+                alert('hello'+ this.name + "!");
+            }
+        }
+        var xiaodong = new Student('xiaodong','25','male');
+        xiaodong.girlfriend = 'lucy';
+        console.log(xiaodong.name + "girlfreient id " + xiaodong.girlfriend);
+    </script>
+</body>
+</html>

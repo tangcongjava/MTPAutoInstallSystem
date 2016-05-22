@@ -1,0 +1,58 @@
+body{
+    margin: 0px;
+}
+#header{
+    margin-top:0px;
+    width: 100%;
+    height: 100px;
+    display: block;
+    background:lightgoldenrodyellow;
+}
+#header >p{
+    text-align: center;
+    font-size: 2em;
+    margin:0px;
+    line-height: 100px;
+}
+#footer{
+    font-size: 1em;
+    text-align: center;
+}
+
+.servename{
+    font-size:1.6em;
+    color: #0081C2;
+    margin-top:10px;
+    text-align: center;
+
+}
+#maindiv{
+    text-align: center;
+}
+
+table{
+    margin-left: 120px;
+}
+#result{
+    border: 1px red solid;
+    display: none;
+    background-color: #cccccc;
+}
+.query_hint{
+    border:5px solid #939393;
+    width:400px;
+    height:50px;
+    line-height:55px;
+    padding:0 20px;
+    position:absolute;
+    left:50%;
+    margin-left:-140px;
+    top:50%;
+    margin-top:-40px;
+    font-size:15px;
+    color:#333;
+    font-weight:bold;
+    text-align:center;
+    background-color:#f9f9f9;
+}
+.query_hint img{position:relative;top:10px;left:-8px;}

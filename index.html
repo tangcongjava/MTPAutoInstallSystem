@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TAS自动化部署</title>
+    <link rel="stylesheet" type="text/css" href="css/loading.css">
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="./jquery-easyui/demo/demo.css">
+    <script type="text/javascript" src="./jquery-easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="./jquery-easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<div style="margin:20px 0;"></div>
+<form id="installfrom">
+    <p style="font-size: 30px;font-weight: bold;margin: 0;text-align:center ">TAS自动化部署系统-----v1.0.0</p>
+    <p style="font-size: 18px;font-weight: bold">安装版本选择</p>
+    主版本:<input id="mainversion" name = "product" class="easyui-combobox" data-options="
+                url:'./include/getdata.php',
+                onSelect:function(rec){
+                    var url = './include/getsubversion.php?id='+rec.id;
+                    $('#subversion').combobox('setValue','');
+                    $('#subversion').combobox('reload',url);
+                },
+                required:true,
+                editable:false
+            "/>
+    &nbsp;&nbsp;子版本:<input id="subversion"  name="revision" class="easyui-combobox" data-options="
+            required:true,editable:false,onSelect:function(rec){
+            var subvalue = rec.text;
+            var mainvalue = $('#mainversion').combobox('getValue');
+            $.post(
+                './include/getversiontxt.php',
+                {mainversion:mainvalue,subversion:subvalue},
+                function(data){
+                    $('#versiontxt').textbox('setText',data);
+                }
+              ,'json'
+            );
+            }">
+    &nbsp;&nbsp;版本介绍:<input id="versiontxt" class="easyui-textbox" data-options="editable:false,width:500">
+    <h2>安装历史</h2>
+<table id="dg" class="easyui-datagrid" title="己安装历史参数" style="width:100%;height:400px"
+       data-options="singleSelect:true,collapsible:true,url:'./phpserve/history.php',method:'post',rownumbers:true,footer:'#ft'">
+    <thead>
+    <tr>
+        <th data-options="field:'ck',checkbox:true">bank用户</th>
+        <th data-options="field:'id',width:40">序列号</th>
+        <th data-options="field:'mainversion',width:70">主版本</th>
+        <th data-options="field:'subversion',width:70">子版本</th>
+        <th data-options="field:'bankuser',width:60">bank用户</th>
+        <th data-options="field:'bankpswd',width:60">bank密码</th>
+        <th data-options="field:'tasuser',width:65,align:'right'">TAS用户名</th>
+        <th data-options="field:'taspassword',width:60,align:'right'">TAS密码</th>
+        <th data-options="field:'tasdbport',width:60">oracl端口</th>
+        <th data-options="field:'tasdbip',width:60,align:'right'">oraclIP</th>
+        <th data-options="field:'tasdbinstance',width:80,align:'right'">oracl实例名</th>
+        <th data-options="field:'linuxip',width:80,align:'center'">一级服务IP</th>
+        <th data-options="field:'rabbituri',width:120,align:'center'">rabbit总线</th>
+        <th data-options="field:'secondip',width:75,align:'center'">二级放在哪</th>
+        <th data-options="field:'secondport',width:75,align:'center'">二级监听端口</th>
+        <th data-options="field:'hqdbip',width:80,align:'center'">行情数据库ip</th>
+        <th data-options="field:'hqdbname',width:80,align:'center'">行情数据库名</th>
+        <th data-options="field:'hqdbuser',width:100,align:'center'">行情数据库用户名</th>
+        <th data-options="field:'hqdbpswd',width:100,align:'center'">行情数据库密码</th>
+        <th data-options="field:'hqtoip',width:75,align:'center'">行情放在哪里</th>
+        <th data-options="field:'hqlistenport',width:75,align:'center'">行情监听端口</th>
+        <th data-options="field:'winzipurl',width:100,align:'center',formatter:downwinfile">winZIP下载链接</th>
+        <th data-options="field:'lnxzipurl',width:100,align:'center',formatter:downlnxfile">lnxZIP下载链接</th>
+    </tr>
+    </thead>
+</table>
+        <div align="right" id="ft">
+            <a href="#" class="easyui-linkbutton" onClick="getSelected()"><span style="font-size:1.2em;font-weight: 900;color: red">克  隆</span></a>&nbsp;&nbsp;&nbsp;
+            <a href="#" class="easyui-linkbutton" onClick="install()"><span style="font-size: 1.2em;font-weight: 800;color: red">安装</span></a>
+        </div>
+     </form>
+        <div  id="query_hint" align="center" class="query_hint" style="display: none">
+           <img src="image/loading.gif"><span style="font-size: 1em;color: red;">拼命安装中.....请稍候!</span>
+        </div>
+
+</body>
+<script>
+    function downwinfile(val,row){
+        var fileurl = row.winzipurl;
+        var aelmt = '<a href='+fileurl+'>'+'下载'+'</a>';
+        return  aelmt;
+    }
+    function downlnxfile(val,row){
+        var fileurl = row.lnxzipurl;
+        var aelmt = '<a href='+fileurl+'>'+'下载'+'</a>';
+        return  aelmt;
+    }
+    //显示页面
+    function show_query_hint(query_hint){
+        var query_hint = document.getElementById(query_hint);
+        query_hint.style.display="block";
+    }
+    //关掉
+    function queryHintCallback(query_hint){
+        var query_hint = document.getElementById(query_hint);
+        query_hint.style.display="none";
+    }
+    function install(){
+        var manversion = $("#mainversion").combobox('getValue');
+        var subversion = $("#subversion").combobox('getValue');
+        var row = $("#dg").datagrid('getSelected');
+        if(!row){
+            $.messager.alert("wrong",'请选择历史安装记录');
+        }else if(!(manversion && subversion)){
+            $.messager.alert("wrong",'请选择要安装的版本');
+
+        }else if((manversion =='TAS_gdiex')  || (manversion=='wetas')|| (manversion=='TAS_ppcx64') ){
+            $.messager.alert("wrong",'不支持'+manversion+'部署');
+
+        }else{
+            show_query_hint("query_hint");
+            $.post("./phpserve/mysqlhander.php",{
+                     "product":manversion,
+                        "revision":subversion,
+                        "id":row.id
+                    },function(data){
+                        queryHintCallback("query_hint");
+                        location.reload("true");
+                        $.messager.alert('info',data.zipfile+data.srvip);
+                    },"json"
+            );
+        }
+
+    }
+    function getSelected(){
+        //将选择的数据传递给php页面,把配置页面填充完整
+      var row = $("#dg").datagrid('getSelected');
+        if(row){
+           // var location="./panel.html?"+"bankuser="+row.bankuser+"&bankpswd="+row.bankpswd+"&tasuser="+row.tasuser+"&taspassword="+row.taspassword+"&tasdbport="+row.tasdbport+"&tasdbip="+row.tasdbip+"&tasdbinstance="+row.tasdbinstance+"&linuxip="+row.linuxip+"&rabbituri="+row.rabbituri+"&secondip="+row.secondip+"&secondport="+row.secondport+"&hqdbip="+row.hqdbip+"&hqdbname="+row.hqdbname+"&hqdbuser="+row.hqdbuser+"&hqtoip="+row.hqtoip+"&hqlistenport="+row.hqlistenport;
+            var location="./panel.html?"+"id="+row.id;
+            open(location);
+        }else{
+            $.messager.alert("错误",'请选择一个历史安装记录');
+        }
+
+    }
+</script>
+</html>

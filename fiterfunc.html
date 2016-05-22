@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>javascript高阶函数</title>
+</head>
+<body>
+<script>
+    //fiter可以除去了那些满足条件的元素。
+    var arr = [1,2,4,5,8,4,7,8];
+    console.log("the length of arr is " +arr.length);
+    arr.filter(function(x){
+        return x%2 !=0;
+
+    });
+    for(var pro in arr){
+        console.log(arr[pro]);
+    }
+</script>
+</body>
+</html>

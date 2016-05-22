@@ -1,0 +1,2 @@
+** Message: Command: rdesktop -u tang.cong -p - -g 1440x900 -f -P -T 22.206 192.168.22.206 
+tsclient: symbol lookup error: /usr/lib64/tsclient/plugins/libtsc-default.so: undefined symbol: notify_is_initted

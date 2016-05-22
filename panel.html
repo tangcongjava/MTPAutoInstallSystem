@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>panel</title>
+      <link rel="stylesheet" type="text/css" href="./css/style.css">
+      <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/default/easyui.css">
+      <link rel="stylesheet" type="text/css" href="./jquery-easyui/themes/icon.css">
+      <script src="./jquery-easyui/jquery.min.js"></script>
+      <script src="./jquery-easyui/jquery.easyui.min.js"></script>
+      <script>
+         //面板出现后会调用这个函数把页面显示出来
+         function inipage(){
+               var url = window.location.search;
+               var urlargs = url.substring(url.indexOf("?")+1,url.length)
+            var id=urlargs.substring(3,urlargs.length);
+            if(urlargs.indexOf("id") !=-1) {
+               $.post("./include/clonearg.php",{"id":id}, function (data) {
+                  $("#rabturi").textbox('setValue',data.rabbituri);
+                  $("#lnxip").textbox('setValue',data.linuxip);
+                  $("#tasuser").textbox('setValue',data.tasuser);
+                  $("#taspswd").textbox('setValue',data.taspassword);
+                  $("#tasip").textbox('setValue',data.tasdbip);
+                  $("#tasport").textbox('setValue',data.tasdbport);
+                  $("#tasinstance").textbox('setValue',data.tasdbinstance);
+                  $("#bankname").textbox('setValue',data.bankuser);
+                  $("#bankpswd").textbox('setValue',data.bankpswd);
+                  $("#hqdbusr").textbox('setValue',data.hqdbuser);
+                  $("#hqdbpswd").textbox('setValue',data.hqdbpswd);
+                  $("#hqdbip").textbox('setValue',data.hqdbip);
+                  $("#hqdbname").textbox('setValue',data.hqdbname);
+                  $("#hqip").textbox('setValue',data.hqtoip);
+                  $("#hqlistenport").textbox('setValue',data.hqlistenport);
+                  $("#secondip").textbox('setValue',data.secondip);
+                  $("#secondport").textbox('setValue',data.secondport);
+
+               }, 'json')
+            }
+         }
+
+      </script>
+   </head>
+   <body>
+      <!--   <div id="p" class="easyui-panel" title="my panel" data-options="collapsible:true,onOpen:function(){inipage();}">
+            <form>
+               <input  class="easyui-textbox" name="test" id="name">
+               <input  class="easyui-textbox" name="age" id="age">
+            </form>
+         </div>
+         -->
+
+         <div id="maindiv" class="easyui-panel" title="参数配置" data-options="collapsible:true,collapsed:false,onOpen:function(){inipage();}">
+            <form method="post" id="configform">
+           <!--    <p style="font-size: 20px">请选择要进行部署的软件版本</p>
+               主版本:<input id="mainversion" name = "product" class="easyui-combobox" data-options="
+                url:'./include/getdata.php',
+                onSelect:function(rec){
+                    var url = './include/getsubversion.php?id='+rec.id;
+                    $('#subversion').combobox('reload',url);
+                },
+                required:true
+            "/>
+               子版本:<input id="subversion"  name="revision" class="easyui-combobox" data-options="
+            required:true">
+            -->
+               <table>
+                  <tr>
+                     <td colspan="10" class="servename">rabbitmq配置</td>
+                  </tr>
+                  <tr>
+                     <td >总线地址：</td>
+                     <td><input type="text" id="rabturi" style="width: 300px" class="easyui-textbox" name="rabbituri" data-options="required:true" ></td>
+                  </tr>
+                  <tr>
+                     <td colspan="10" class="servename">
+                        一级服务器参数
+                     </td>
+                  </tr>
+                  <tr>
+                     <td>IP:</td>
+                     <td><input type="text" id="lnxip" class="easyui-textbox" name="lnxip" data-options="required:true"></td>
+                  </tr>
+                  <tr>
+                     <td colspan="10" class="servename">
+                        TAS交易数据库参数
+                     </td>
+                  </tr>
+                  <tr>
+                     <td >TAS数据库用户名：</td>
+                     <td><input type="text" id = "tasuser" class="easyui-textbox" name="tasuser" data-options="required:true" ></td>
+                     <td >DB密码:</td>
+                     <td><input type="text" id="taspswd" class="easyui-textbox" name="taspswd" data-options="required:true"></td>
+                     <td>DBIP:</td>
+                     <td><input type="text" id = "tasip" class="easyui-textbox" name="tasip" data-options="required:true"></td>
+                     <td>DBport</td>
+                     <td><input type="text" id="tasport" class="easyui-textbox" name="tasport" data-options="required:true"></td>
+                     <td>DB实例</td>
+                     <td><input type="text" id="tasinstance" class="easyui-textbox" name="tasinstance" data-options="required:true"></td>
+                  </tr>
+                  <tr>
+                     <td colspan="10" class="servename">
+                        BANK数据库参数 </td>
+                  </tr>
+                  <tr>
+                     <td >BANK数据库用户名：</td>
+                     <td><input type="text" id="bankname" class="easyui-textbox" name="bankuser" data-options="required:true"></td>
+                     <td >DB密码:</td>
+                     <td><input type="text" id="bankpswd" class="easyui-textbox" name="bankpswd" data-options="required:true"></td>
+                  </tr>
+                  <tr>
+                     <td colspan="10" class="servename">
+                        行情参数配置 </td>
+                  </tr>
+                  <tr>
+                     <td >行情SQL数据库用户名：</td>
+                     <td><input type="text" id="hqdbusr" class="easyui-textbox" name="hqdbuser" data-options="required:true"></td>
+                     <td >行情DB密码:</td>
+                     <td><input type="text" id="hqdbpswd" class="easyui-textbox" name="hqdbpswd" data-options="required:true"></td>
+                     <td>行情DBIP:</td>
+                     <td><input type="text" id="hqdbip" class="easyui-textbox" name="hqdbip" data-options="required:true"></td>
+                     <td>行情数据库名:</td>
+                     <td><input type="text" id="hqdbname" class="easyui-textbox" name="hqdbname" data-options="required:true"></td>
+                     <td>行情服务所在IP:</td>
+                     <td><input type="text" id="hqip" class="easyui-textbox" name="hqip" data-options="required:true"></td>
+                     <td>行情双工监听端口</td>
+                     <td><input type="text" id="hqlistenport" class="easyui-textbox" name="hqlistenport" data-options="required:true"></td>
+                  </tr>
+                  <tr>
+                     <td colspan="10" class="servename">
+                        二级代理服务配置 </td>
+                  </tr>
+                  <tr>
+                     <td >二级服务所在ip：</td>
+                     <td><input type="text" id="secondip" class="easyui-textbox" name="secondip" data-options="required:true"></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td >二级监听端口:</td>
+                     <td><input type="text" id="secondport" class="easyui-textbox" name="secondport" data-options="required:true"></td>
+                  </tr>
+               </table>
+               <div id="check">
+                  <a href="#" class="easyui-linkbutton" data-options="size:'large',onClick:function(){insertvalue();}"><span style="font-size: 16px;">确   认</span></a>
+               </div>
+               </form>
+            </div>
+   </body>
+<script>
+   function insertvalue(){
+      $("#configform").form('submit', {
+         url: "./phpserve/insertvalue.php",
+         success: function() {
+            window.location.href="./index.html";
+         }
+      });
+   }
+</script>
+</html>
